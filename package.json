@@ -1,0 +1,24 @@
+{
+  "name": "chainseeker-lib",
+  "version": "0.1.1",
+  "description": "API library for chainseeker.info",
+  "scripts": {
+    "mkdist": "mkdir -p dist",
+    "browser:browserify": "browserify src/index.ts -p [ tsify --noImplicitAny ] --standalone chainseeker >dist/bundle.js",
+    "browser:minify": "terser dist/bundle.js --compress --mangle --output dist/bundle.min.js",
+    "browser": "npm run mkdist && npm run browser:browserify && npm run browser:minify"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "author": "Vis Virial <visvirial@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-request": "^1.8.2"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "terser": "^3.17.0",
+    "tsify": "^4.0.1",
+    "typescript": "^3.4.5"
+  }
+}
