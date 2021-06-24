@@ -6,7 +6,8 @@
     "mkdist": "mkdir -p dist",
     "browser:browserify": "browserify src/index.ts -p [ tsify --noImplicitAny ] --standalone chainseeker >dist/bundle.js",
     "browser:minify": "terser dist/bundle.js --compress --mangle --output dist/bundle.min.js",
-    "browser": "npm run mkdist && npm run browser:browserify && npm run browser:minify"
+    "browser": "npm run mkdist && npm run browser:browserify && npm run browser:minify",
+    "test": "jest"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,8 +17,12 @@
     "graphql-request": "^1.8.2"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "browserify": "^16.2.3",
+    "jest": "^27.0.5",
     "terser": "^3.17.0",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.0.0",
     "tsify": "^4.0.1",
     "typescript": "^3.4.5"
   }
