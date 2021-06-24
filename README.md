@@ -2,6 +2,7 @@ chainseeker-lib
 ===============
 
 [![Node.js CI](https://github.com/chainseeker/chainseeker-client/actions/workflows/node.js.yml/badge.svg)](https://github.com/chainseeker/chainseeker-client/actions/workflows/node.js.yml)
+[![npm version](https://badge.fury.io/js/chainseeker.svg)](https://badge.fury.io/js/chainseeker)
 
 The official JavaScript/TypeScript API client for chainseeker.info.
 
