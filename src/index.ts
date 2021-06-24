@@ -253,6 +253,7 @@ export const getBlockSummary = async (offset: number, limit: number, items: stri
 	query.push('}');
 	query.push('}');
 	const data = (await getGraphQL<{ blockSummary: {
+		hash: string,
 		time: number,
 		nonce: string,
 		size: number,
@@ -261,6 +262,7 @@ export const getBlockSummary = async (offset: number, limit: number, items: stri
 		txcount: number
 	}[] }>(query.join('\n'))).blockSummary;
 	return data.map((d) => ({
+		hash: d.hash,
 		time: d.time,
 		nonce: d.nonce ? Number.parseInt(d.nonce) : undefined,
 		size: d.size,
