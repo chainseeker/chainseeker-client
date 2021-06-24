@@ -1,6 +1,8 @@
 chainseeker-lib
 ===============
 
+[![Node.js CI](https://github.com/chainseeker/chainseeker-client/actions/workflows/node.js.yml/badge.svg)](https://github.com/chainseeker/chainseeker-client/actions/workflows/node.js.yml)
+
 The official JavaScript/TypeScript API client for chainseeker.info.
 
 Install
