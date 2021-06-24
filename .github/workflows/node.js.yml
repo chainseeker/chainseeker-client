@@ -32,6 +32,8 @@ jobs:
     - run: npm run build --if-present
 
     - run: npm test
+      env:
+        CS_PRIVKEY: ${{ secrets.CS_PRIVKEY }}
 
     - name: Codecov
       uses: codecov/codecov-action@v1
