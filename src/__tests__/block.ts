@@ -1,5 +1,5 @@
 
-import { Chainseeker } from '../src/index';
+import { Chainseeker } from '../index';
 const cs = new Chainseeker();
 
 const blockHash = '00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048';

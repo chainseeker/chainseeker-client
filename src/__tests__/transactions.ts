@@ -1,5 +1,5 @@
 
-import { Chainseeker } from '../src/index';
+import { Chainseeker } from '../index';
 const cs = new Chainseeker();
 
 const txids = [
