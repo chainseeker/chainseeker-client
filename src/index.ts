@@ -2,105 +2,9 @@
 import fetch from 'node-fetch';
 import { request as graphqlRequest } from 'graphql-request';
 
+import * as types from './types';
+
 export const DEFAULT_API_ENDPOINT = 'https://btc.chainseeker.info/api';
-
-export type Status = {
-	blocks: number;
-};
-
-export type CounterParty = {
-	destination: string;
-	message: string;
-};
-
-export type ScriptSig = {
-	asm: string;
-	hex: string;
-};
-
-export type Vin = {
-	txid: string;
-	vout: number;
-	scriptSig: ScriptSig;
-	txinwitness: string[];
-	sequence: number;
-	value: number;
-	address: string|null;
-};
-
-export type ScriptPubKey = {
-	asm: string;
-	hex: string;
-	type: string;
-	address: string|null;
-};
-
-export type Vout = {
-	value: number;
-	n: number;
-	scriptPubKey: ScriptPubKey;
-};
-
-export type Transaction = {
-	hex: string;
-	txid: string;
-	hash: string;
-	size: number;
-	vsize: number;
-	version: number;
-	locktime: number;
-	confirmed_height: number|null;
-	vin: Vin[];
-	vout: Vout[];
-	fee: number;
-	counterparty: CounterParty|undefined;
-};
-
-export type Block = {
-	header: string;
-	hash: string;
-	version: number;
-	previousblockhash: string;
-	merkleroot: string;
-	time: number;
-	bits: string;
-	difficulty: number;
-	nonce: number;
-	size: number;
-	strippedsize: number;
-	weight: number;
-	height: number|null;
-	txids: string[];
-};
-
-export type Utxo = {
-	txid: string;
-	vout: number;
-	scriptPubKey: ScriptPubKey;
-	value: number;
-};
-
-export type BlockSummaryEntry = {
-	time: number;
-	nonce?: number;
-	size: number;
-	strippedsize: number;
-	weight: number;
-	txcount: number;
-};
-
-export type BlockSummary = BlockSummaryEntry[];
-
-export type AddressBalanceEntry = {
-	scriptPubKey: string;
-	address: string | null;
-	value: number;
-};
-
-export type AddressBalance = {
-	count: number;
-	data: AddressBalanceEntry[];
-};
 
 export class Chainseeker {
 	constructor(private endpoint = DEFAULT_API_ENDPOINT) {
@@ -112,22 +16,22 @@ export class Chainseeker {
 		if(json.error) throw new Error('API server responded as an error: ' + json.error.toString());
 		return json;
 	}
-	getStatus(): Promise<Status> {
-		return this.getRestV1<Status>(['status']);
+	getStatus(): Promise<types.Status> {
+		return this.getRestV1<types.Status>(['status']);
 	}
-	getBlock(tag: string|number): Promise<Block> {
-		return this.getRestV1<Block>(['block', (typeof tag == 'number' ? tag.toString() : tag)]);
+	getBlock(tag: string|number): Promise<types.Block> {
+		return this.getRestV1<types.Block>(['block', (typeof tag == 'number' ? tag.toString() : tag)]);
 	}
-	getTransaction(txid: string): Promise<Transaction> {
-		return this.getRestV1<Transaction>(['tx', txid]);
+	getTransaction(txid: string): Promise<types.Transaction> {
+		return this.getRestV1<types.Transaction>(['tx', txid]);
 	}
 	getTxids(address: string): Promise<string[]> {
 		return this.getRestV1<string[]>(['txids', address]);
 	}
-	getUtxos(address: string): Promise<Utxo[]> {
-		return this.getRestV1<Utxo[]>(['utxos', address]);
+	getUtxos(address: string): Promise<types.Utxo[]> {
+		return this.getRestV1<types.Utxo[]>(['utxos', address]);
 	}
-	async putTransaction(rawtx: string): Promise<Transaction> {
+	async putTransaction(rawtx: string): Promise<types.Transaction> {
 		const res = await fetch(`${this.endpoint}/v1/tx/broadcast`, {
 			method: 'PUT',
 			headers: {
@@ -144,7 +48,7 @@ export class Chainseeker {
 	getGraphQL<T>(query: string, variables: object={}): Promise<T> {
 		return graphqlRequest(`${this.endpoint}/graphql`, query, variables);
 	}
-	async getBlocks(refs: (string|number)[]): Promise<Block[]> {
+	async getBlocks(refs: (string|number)[]): Promise<types.Block[]> {
 		if(refs.length == 0) return [];
 		let query: string[] = [];
 		query = query.concat([
@@ -180,7 +84,7 @@ export class Chainseeker {
 		}
 		return blocks;
 	}
-	async getTransactions(txids: string[]): Promise<Transaction[]> {
+	async getTransactions(txids: string[]): Promise<types.Transaction[]> {
 		if(txids.length == 0) return [];
 		let query: string[] = [];
 		query = query.concat([
@@ -241,7 +145,7 @@ export class Chainseeker {
 		}
 		return txs;
 	}
-	async getBlockSummary(offset: number, limit: number, items: string[]): Promise<BlockSummary> {
+	async getBlockSummary(offset: number, limit: number, items: string[]): Promise<types.BlockSummary> {
 		let query: string[] = [
 			'query BlockSummary {',
 			 `blockSummary(offset: ${offset}, limit: ${limit}) {`,
@@ -268,7 +172,7 @@ export class Chainseeker {
 			txcount: d.txcount,
 		}));
 	}
-	async getAddressBalances(offset: number, limit: number): Promise<AddressBalance> {
+	async getAddressBalances(offset: number, limit: number): Promise<types.AddressBalance> {
 		let query: string[] = [
 			'query AddressBalances {',
 				`addressBalances(offset: ${offset}, limit: ${limit}) {`,
