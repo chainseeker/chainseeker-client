@@ -28,6 +28,8 @@
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/node-fetch": "^2.5.10",
+    "bitcoinjs-lib": "^5.2.0",
+    "dotenv": "^10.0.0",
     "jest": "^27.0.5",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
