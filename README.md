@@ -1,13 +1,13 @@
 chainseeker-lib
 ===============
 
-This is an API library to use with chainseeker.info.
+The official JavaScript/TypeScript API client for chainseeker.info.
 
 Install
 -------
 
 ```
-$ npm install chainseeker-lib
+$ npm install chainseeker
 ```
 
 Then, you can require (Node.js) or import (TypeScript) the library.
@@ -15,30 +15,32 @@ Then, you can require (Node.js) or import (TypeScript) the library.
 ### Node.js
 
 ```
-const cs = require('chainseeker-lib');
+const chainseeker = require('chainseeker');
+const cs = new chainseeker.Chainseeker();
 ```
 
 ### TypeScript
 
 ```
-import * as cs from 'chainseeker-lib';
+import { Chainseeker } from 'chainseeker';
+const cs = new Chainseeker();
 ```
 
 Configure
 ---------
 
 The default API endpoint is set to `https://btc.chainseeker.info/api`.
-If you want to use other servers, you can change the endpoint as follows.
+If you want to use other servers, you can change the endpoint by passing endpoint URL to the `Chainseeker` constructor.
 
 ```
-cs.setApiEndPoint('https://mona.chainseeker.info/api');
+const cs = new Chainseeker('https://mona.chainseeker.info/api');
 ```
 
 Library API
 -----------
 
 We implements either the traditional [RESTful APIs](https://chainseeker.docs.apiary.io/) and the GraphQL API.
-If you want to retrieve multiple data from the server, please use the GraphQL API.
+If you want to retrieve multiple data from the server, use the GraphQL API.
 
 ### REST APIs
 
@@ -107,7 +109,4 @@ Get a block summary data, including nonces, sizes of a block and the number of t
 
 Get the balance of the addresses sorted by its value (amount).
 It is a so-called 'rich list' of blockchain addresses.
-
-
-
 
