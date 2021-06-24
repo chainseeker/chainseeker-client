@@ -1,12 +1,8 @@
 {
   "name": "chainseeker-lib",
-  "version": "0.1.1",
+  "version": "1.0.1",
   "description": "API library for chainseeker.info",
   "scripts": {
-    "mkdist": "mkdir -p dist",
-    "browser:browserify": "browserify src/index.ts -p [ tsify --noImplicitAny ] --standalone chainseeker >dist/bundle.js",
-    "browser:minify": "terser dist/bundle.js --compress --mangle --output dist/bundle.min.js",
-    "browser": "npm run mkdist && npm run browser:browserify && npm run browser:minify",
     "test": "jest"
   },
   "main": "./dist/index.js",
@@ -20,12 +16,9 @@
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/node-fetch": "^2.5.10",
-    "browserify": "^16.2.3",
     "jest": "^27.0.5",
-    "terser": "^3.17.0",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
-    "tsify": "^4.0.1",
-    "typescript": "^3.4.5"
+    "typescript": "^4.3.4"
   }
 }
