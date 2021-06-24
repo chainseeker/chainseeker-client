@@ -1,5 +1,5 @@
 {
-  "name": "chainseeker-lib",
+  "name": "chainseeker",
   "version": "1.0.1",
   "description": "API library for chainseeker.info",
   "scripts": {
