@@ -1,5 +1,6 @@
 
-import * as cs from '../src/index';
+import { Chainseeker } from '../src/index';
+const cs = new Chainseeker();
 
 const address = '1JqDybm2nWTENrHvMyafbSXXtTk5Uv5QAn';
 

@@ -1,5 +1,6 @@
 
-import * as cs from '../src/index';
+import { Chainseeker } from '../src/index';
+const cs = new Chainseeker();
 
 test('status', async () => {
 	const status = await cs.getStatus();

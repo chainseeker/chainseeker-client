@@ -1,5 +1,6 @@
 
-import * as cs from '../src/index';
+import { Chainseeker } from '../src/index';
+const cs = new Chainseeker();
 
 test('get address balances', async () => {
 	const addressBalances = await cs.getAddressBalances(0, 10);

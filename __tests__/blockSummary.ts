@@ -1,5 +1,6 @@
 
-import * as cs from '../src/index';
+import { Chainseeker } from '../src/index';
+const cs = new Chainseeker();
 
 test('get block summary', async () => {
 	const blockSummary = await cs.getBlockSummary(0, 10, ['hash']);
