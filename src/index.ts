@@ -1,4 +1,5 @@
 
+import fetch from 'node-fetch';
 import { request as graphqlRequest } from 'graphql-request';
 
 

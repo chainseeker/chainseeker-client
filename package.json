@@ -14,10 +14,12 @@
   "author": "Vis Virial <visvirial@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "graphql-request": "^1.8.2"
+    "graphql-request": "^3.4.0",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
+    "@types/node-fetch": "^2.5.10",
     "browserify": "^16.2.3",
     "jest": "^27.0.5",
     "terser": "^3.17.0",
