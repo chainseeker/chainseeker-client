@@ -80,6 +80,28 @@ export type Utxo = {
 	value: number;
 };
 
+export type BlockSummaryEntry = {
+	time: number;
+	nonce?: number;
+	size: number;
+	strippedsize: number;
+	weight: number;
+	txcount: number;
+};
+
+export type BlockSummary = BlockSummaryEntry[];
+
+export type AddressBalanceEntry = {
+	scriptPubKey: string;
+	address: string | null;
+	value: number;
+};
+
+export type AddressBalance = {
+	count: number;
+	data: AddressBalanceEntry[];
+};
+
 export class Chainseeker {
 	constructor(private endpoint = DEFAULT_API_ENDPOINT) {
 	}
@@ -219,15 +241,7 @@ export class Chainseeker {
 		}
 		return txs;
 	}
-	async getBlockSummary(offset: number, limit: number, items: string[]):
-		Promise<{
-			time?: number,
-			nonce?: number,
-			size?: number,
-			strippedsize?: number,
-			weight?: number,
-			txcount?: number
-		}[]> {
+	async getBlockSummary(offset: number, limit: number, items: string[]): Promise<BlockSummary> {
 		let query: string[] = [
 			'query BlockSummary {',
 			 `blockSummary(offset: ${offset}, limit: ${limit}) {`,
@@ -254,7 +268,7 @@ export class Chainseeker {
 			txcount: d.txcount,
 		}));
 	}
-	async getAddressBalances(offset: number, limit: number): Promise<{ count: number, data: { scriptPubKey: string, address: string|null, value: number }[] }> {
+	async getAddressBalances(offset: number, limit: number): Promise<AddressBalance> {
 		let query: string[] = [
 			'query AddressBalances {',
 				`addressBalances(offset: ${offset}, limit: ${limit}) {`,
@@ -267,7 +281,7 @@ export class Chainseeker {
 				'}',
 			'}'
 		];
-		const data = (await this.getGraphQL<{ addressBalances: { count: number, data: { scriptPubKey: string, address: string|null, value: string }[] }  }>(query.join('\n'))).addressBalances;
+		const data = (await this.getGraphQL<{ addressBalances: { count: number, data: { scriptPubKey: string, address: string|null, value: string }[] } }>(query.join('\n'))).addressBalances;
 		return {
 			count: data.count,
 			data: data.data.map((d) => ({
