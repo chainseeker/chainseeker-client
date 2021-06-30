@@ -1,16 +1,19 @@
 
-import fetch from 'node-fetch';
 import { request as graphqlRequest } from 'graphql-request';
 
 import * as types from './types';
 
 export const DEFAULT_API_ENDPOINT = 'https://btc.chainseeker.info/api';
 
+const fetch_ = () => {
+	return (typeof fetch !== 'undefined' ? fetch : require('node-fetch'));
+};
+
 export class Chainseeker {
 	constructor(private endpoint = DEFAULT_API_ENDPOINT) {
 	}
 	private async getRestV1<T>(path: string[]): Promise<T> {
-		const res = await fetch(`${this.endpoint}/v1/${path.join('/')}`);
+		const res = await fetch_()(`${this.endpoint}/v1/${path.join('/')}`);
 		if(!res.ok) throw new Error('Failed to call API: ' + res.statusText);
 		const json = await res.json();
 		if(json.error) throw new Error('API server responded as an error: ' + json.error.toString());
@@ -32,7 +35,7 @@ export class Chainseeker {
 		return this.getRestV1<types.Utxo[]>(['utxos', address]);
 	}
 	async putTransaction(rawtx: string): Promise<types.Transaction> {
-		const res = await fetch(`${this.endpoint}/v1/tx/broadcast`, {
+		const res = await fetch_()(`${this.endpoint}/v1/tx/broadcast`, {
 			method: 'PUT',
 			headers: {
 				'Accept': 'application/json',
@@ -196,5 +199,4 @@ export class Chainseeker {
 		};
 	}
 }
-
 
