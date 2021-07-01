@@ -21,8 +21,6 @@
   },
   "homepage": "https://github.com/chainseeker/chainseeker-lib#readme",
   "dependencies": {
-    "graphql": "^15.5.1",
-    "graphql-request": "^3.4.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
