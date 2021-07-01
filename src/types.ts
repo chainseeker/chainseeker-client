@@ -44,7 +44,7 @@ export type Transaction = {
 	vsize: number;
 	version: number;
 	locktime: number;
-	confirmed_height: number|null;
+	confirmedHeight: number|null;
 	vin: Vin[];
 	vout: Vout[];
 	fee: number;
