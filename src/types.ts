@@ -51,7 +51,7 @@ export type Transaction = {
 	counterparty: CounterParty|undefined;
 };
 
-export type BlockHeader = {
+export type BlockBase = {
 	header: string;
 	hash: string;
 	version: number;
@@ -64,14 +64,18 @@ export type BlockHeader = {
 	size: number;
 	strippedsize: number;
 	weight: number;
-	height: number|null;
+	height: number | null;
 };
 
-export type BlockWithTxids = BlockHeader & {
+export type BlockHeader = BlockBase & {
+	ntxs: number,
+};
+
+export type BlockWithTxids = BlockBase & {
 	txids: string[];
 };
 
-export type BlockWithTxs = BlockHeader & {
+export type BlockWithTxs = BlockBase & {
 	txs: Transaction[];
 };
 
