@@ -27,7 +27,7 @@ export class Chainseeker {
 		return this.getRestV1<types.BlockWithTxids>(['block_with_txids', (typeof tag == 'number' ? tag.toString() : tag)]);
 	}
 	getBlockWithTxs(tag: string|number): Promise<types.BlockWithTxs> {
-		return this.getRestV1<types.BlockWithTxs>(['block_with_txids', (typeof tag == 'number' ? tag.toString() : tag)]);
+		return this.getRestV1<types.BlockWithTxs>(['block_with_txs', (typeof tag == 'number' ? tag.toString() : tag)]);
 	}
 	getTransaction(txid: string): Promise<types.Transaction> {
 		return this.getRestV1<types.Transaction>(['tx', txid]);
