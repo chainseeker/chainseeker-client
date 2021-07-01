@@ -35,6 +35,9 @@ export class Chainseeker {
 	getTxids(address: string): Promise<string[]> {
 		return this.getRestV1<string[]>(['txids', address]);
 	}
+	getTxs(address: string): Promise<types.Transaction[]> {
+		return this.getRestV1<types.Transaction[]>(['txs', address]);
+	}
 	getUtxos(address: string): Promise<types.Utxo[]> {
 		return this.getRestV1<types.Utxo[]>(['utxos', address]);
 	}
