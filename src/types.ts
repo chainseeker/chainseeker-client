@@ -51,7 +51,7 @@ export type Transaction = {
 	counterparty: CounterParty|undefined;
 };
 
-export type Block = {
+export type BlockHeader = {
 	header: string;
 	hash: string;
 	version: number;
@@ -65,7 +65,14 @@ export type Block = {
 	strippedsize: number;
 	weight: number;
 	height: number|null;
+};
+
+export type BlockWithTxids = BlockHeader & {
 	txids: string[];
+};
+
+export type BlockWithTxs = BlockHeader & {
+	txs: Transaction[];
 };
 
 export type Utxo = {
@@ -86,14 +93,10 @@ export type BlockSummaryEntry = {
 
 export type BlockSummary = BlockSummaryEntry[];
 
-export type AddressBalanceEntry = {
+export type RichListEntry = {
 	scriptPubKey: string;
-	address: string | null;
 	value: number;
 };
 
-export type AddressBalance = {
-	count: number;
-	data: AddressBalanceEntry[];
-};
+export type RichList = RichListEntry[];
 
