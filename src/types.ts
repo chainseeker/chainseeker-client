@@ -98,7 +98,7 @@ export type BlockSummaryEntry = {
 export type BlockSummary = BlockSummaryEntry[];
 
 export type RichListEntry = {
-	scriptPubKey: string;
+	scriptPubKey: ScriptPubKey;
 	value: number;
 };
 
