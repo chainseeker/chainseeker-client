@@ -1,7 +1,7 @@
 
 import * as types from './types';
 
-export const DEFAULT_API_ENDPOINT = 'https://btc.chainseeker.info/api';
+export const DEFAULT_API_ENDPOINT = 'https://btc-v3.chainseeker.info/api';
 
 const fetch_ = () => {
 	return (typeof fetch !== 'undefined' ? fetch : require('node-fetch'));
@@ -63,6 +63,9 @@ export class Chainseeker {
 	}
 	getRichList(offset: number, limit: number): Promise<types.RichList> {
 		return this.getRestV1<types.RichList>(['rich_list', offset.toString(), limit.toString()]);
+	}
+	async getRichListRank(address: string): Promise<number | null> {
+		return (await this.getRestV1<{ rank: number | null }>(['rich_list_addr_rank', address])).rank;
 	}
 }
 

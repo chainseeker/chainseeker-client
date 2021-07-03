@@ -12,3 +12,8 @@ test('get rich list', async () => {
 	expect(richList.length).toBeGreaterThan(0);
 });
 
+test('get rich list rank', async () => {
+	const rank = await cs.getRichListRank('34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo');
+	expect(rank).toBeGreaterThan(0);
+});
+
