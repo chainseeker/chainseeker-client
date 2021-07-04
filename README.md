@@ -5,7 +5,7 @@ chainseeker-lib
 [![npm version](https://badge.fury.io/js/chainseeker.svg)](https://badge.fury.io/js/chainseeker)
 [![codecov](https://codecov.io/gh/chainseeker/chainseeker-client/branch/master/graph/badge.svg?token=TL07DPRS4M)](https://codecov.io/gh/chainseeker/chainseeker-client)
 
-The official JavaScript/TypeScript API client for chainseeker.info.
+The official JavaScript/TypeScript API client for [chainseeker.info](https://chainseeker.info/).
 
 Install
 -------
@@ -16,15 +16,6 @@ $ npm install chainseeker
 
 Then, you can require (Node.js) or import (TypeScript) the library.
 
-### Node.js
-
-```
-const chainseeker = require('chainseeker');
-const cs = new chainseeker.Chainseeker();
-```
-
-### TypeScript
-
 ```
 import { Chainseeker } from 'chainseeker';
 const cs = new Chainseeker();
@@ -33,84 +24,80 @@ const cs = new Chainseeker();
 Configure
 ---------
 
-The default API endpoint is set to `https://btc.chainseeker.info/api`.
+The default API endpoint is set to `https://btc-v3.chainseeker.info/api`.
 If you want to use other servers, you can change the endpoint by passing endpoint URL to the `Chainseeker` constructor.
 
 ```
-const cs = new Chainseeker('https://mona.chainseeker.info/api');
+// Testnet
+const cs = new Chainseeker('https://tbtc-v3.chainseeker.info/api');
 ```
 
-Library API
------------
+```
+// Signet
+const cs = new Chainseeker('https://sbtc-v3.chainseeker.info/api');
+```
 
-We implements either the traditional [RESTful APIs](https://chainseeker.docs.apiary.io/) and the GraphQL API.
-If you want to retrieve multiple data from the server, use the GraphQL API.
+```
+// Monacoin
+const cs = new Chainseeker('https://mona-v3.chainseeker.info/api');
+```
 
-### REST APIs
+API
+---
 
-Please consult the REST API docs [here](https://chainseeker.docs.apiary.io/) for more details especially for the return values.
+The object type returned by the client is defined in [./src/types.ts](./src/types.ts).
 
-#### getStatus()
+### getStatus(): Status
 
 Get the synchronization status.
 
-#### getBlock(blockIdOrHeight: string|number)
+### getBlockHeader(blockIdOrHeight: string|number): BlockHeader
 
-Get a block data.
+Get a block data without any transaction information.
 
-#### getTransaction(txid: string)
+### getBlockWithTxids(blockIdOrHeight: string|number): BlockWithTxids
+
+Get a block data with transaction IDs included in the block.
+
+### getBlockWithTxs(blockIdOrHeight: string|number): BlockWithTxs
+
+Get a block data with transactions included in the block.
+
+Warning: this API may return a huge (~10MiB) data.
+If you want a small chunk of transactions in a block, call `getBlockWithTxids()` and fetch transactions with `getTransaction()`.
+
+### getTransaction(txid: string): Transaction
 
 Get a transaction data.
 
-#### getTxIds(address: string)
+### getTxIds(address: string): string[]
 
 Get the array of transaction ids related to an address.
 
-#### getUtxos(address: string)
+### getUtxos(address: string): Utxo[]
 
 Get UTXOs for the given address.
 
-#### putTransaction(rawtx: string)
+### putTransaction(rawtx: string): string
 
 Broadcast a raw transaction data.
+On success, return the transaction ID.
 
-### GraphQL APIs
-
-GraphQL APIs are useful especially for retrieving multiple or large data, since you can fetch the data you want int a single HTTP query to the server.
-
-#### getGraphQL(query: string, variables: object)
-
-Query a GraphQL raw query data.
-You can retrieve multiple data with a single call to the server:
-
-```
-query BlockSummary {
-  status {
-    blocks
-  }
-  block(id: 0) {
-    hash
-  }
-  blockSummary(offset: 0, limit: 10) {
-    nonce
-  }
-}
-```
-
-#### getBlocks(blockIdsOrHeights: (string|number)[])
-
-Get blocks with a given IDs or heights.
-
-#### getTransactions(txids: string[])
-
-Get transactions.
-
-#### getBlockSummary(offset: number, limit: number, items: string[])
+### getBlockSummary(offset: number, limit: number) BlockSummaryEntry[]
 
 Get a block summary data, including nonces, sizes of a block and the number of transactions.
 
-#### getAddressBalances(offset: number, limit: number)
+### getRichListCount: number
 
-Get the balance of the addresses sorted by its value (amount).
-It is a so-called 'rich list' of blockchain addresses.
+The number of addresses in the rich list.
+
+### getRichList(offset: number, limit: number): RichListEntry[]
+
+Get the `(offset + 1)`-th to `(offets + limit + 1)-th` richest addresses.
+The `offset` starts from zero.
+
+### getRichListRank(address: string): number|null
+
+Get the rich list rank of a given address.
+The rank starts with one.
 
