@@ -1,6 +1,6 @@
 
 import { Chainseeker } from '../index';
-const cs = new Chainseeker('https://tbtc.chainseeker.info/api');
+const cs = new Chainseeker('https://tbtc-v3.chainseeker.info/api');
 import * as bitcoin from 'bitcoinjs-lib';
 
 require('dotenv').config();
@@ -12,7 +12,6 @@ test('put transaction', async () => {
 	const { address } = bitcoin.payments.p2wpkh({ pubkey: keyPair.publicKey, network: bitcoin.networks.testnet });
 	if(address === undefined) throw new Error('Failed to compute address.');
 	const utxos = await cs.getUtxos(address);
-	//console.log(utxos);
 	const psbt = new bitcoin.Psbt({ network: bitcoin.networks.testnet });
 	let balance = 0;
 	for(const utxo of utxos) {
@@ -20,6 +19,10 @@ test('put transaction', async () => {
 		psbt.addInput({
 			hash: utxo.txid,
 			index: utxo.vout,
+			witnessUtxo: {
+				script: Buffer.from(utxo.scriptPubKey.hex, 'hex'),
+				value: utxo.value,
+			},
 		});
 	}
 	psbt.addOutput({
@@ -31,8 +34,7 @@ test('put transaction', async () => {
 	}
 	psbt.finalizeAllInputs();
 	const tx = psbt.extractTransaction();
-	//console.log(tx);
 	const txResult = await cs.putTransaction(tx.toHex());
-	expect(txResult.hash).toBe(tx.getId());
+	expect(txResult.txid).toBe(tx.getId());
 });
 

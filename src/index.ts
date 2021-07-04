@@ -41,7 +41,7 @@ export class Chainseeker {
 	getUtxos(address: string): Promise<types.Utxo[]> {
 		return this.getRestV1<types.Utxo[]>(['utxos', address]);
 	}
-	async putTransaction(rawtx: string): Promise<types.Transaction> {
+	async putTransaction(rawtx: string): Promise<{ txid: string }> {
 		const res = await fetch_()(`${this.endpoint}/v1/tx/broadcast`, {
 			method: 'PUT',
 			headers: {
